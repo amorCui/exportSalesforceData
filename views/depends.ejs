@@ -1,0 +1,72 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/depends.css' />
+</head>
+<body>
+    <div class="flex-container flex-container_column container-top">
+        <div class="flex-container-item">
+            <div class="custom—input">
+                <input type="file" name='file' id='dependConfigFile'/>
+                <div class="input-label">
+                    <span>
+                        <!-- <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload">Chose file</use>
+                        </svg> -->
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="flex-container-item">
+            <button onclick="handleDenpends()" class="depends_button"> get denpends</button>
+        </div>
+        
+    </div>
+    
+    
+    <script >
+        function handleDenpends(){
+            let file = document.querySelector('#dependConfigFile').files;
+            if(file.length === 0){
+                return;
+            }
+            file = file[0];
+
+            let xhr = new XMLHttpRequest();
+            xhr.file = file;
+            xhr.addEventListener('progress', function(e) {
+                var done = e.position || e.loaded, total = e.totalSize || e.total;
+                console.log('xhr progress: ' + (Math.floor(done/total*1000)/10) + '%');
+            }, false);
+            if ( xhr.upload ) {
+                xhr.upload.onprogress = function(e) {
+                    var done = e.position || e.loaded, total = e.totalSize || e.total;
+                    console.log('xhr.upload progress: ' + done + ' / ' + total + ' = ' + (Math.floor(done/total*1000)/10) + '%');
+                };
+            }
+            
+            xhr.onreadystatechange = function (e) {
+                if ( 4 == this.readyState ) {
+                    console.log(['xhr upload complete', e]);
+                }
+            }
+
+            xhr.open("POST", "/depends/check", true);
+            //xhr.setRequestHeader("Content-Type", "multipart/form-data");
+            
+            let formData = new FormData();
+            formData.append("file", file);
+
+            xhr.send(formData);
+		}
+
+    </script>
+</body>
+</html>

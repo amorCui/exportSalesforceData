@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/sfdc_210.css' />
+	<link rel='stylesheet' href='/stylesheets/index.css' />
+</head>
+
+<body>
+	<div class="body">
+		<div id='wrap'>
+			<div id="main">
+				<div class="search-page-logo">
+					<div></div>
+					<div id="logo_wrapper" class="standard_logo_wrapper mb24">
+						<h1 style="height: 100%; display: table-cell; vertical-align: bottom;"><img id="logo"
+								class="standard_logo" src="/images/logo214.svg" alt="Salesforce" name="logo" border="0">
+						</h1>
+					</div>
+					<div id="profile_card" class="profile_card">
+						<button class="profile_card_button">
+							<img class="profile_card_button_img" src="/images/profile_avatar_96.png" alt="">
+						</button>
+					</div>
+				</div>
+				<div class="search-contents">
+					<div class="search-wrap">
+						<div class="search-inner-wrap">
+							<input id="searhInput" type="search" name="soql" onkeypress="keyPressEventHandle()" />
+							<button id="searchSubmit" class="search-button" title="search"></button>
+						</div>
+					</div>
+				</div>
+				<div class="depend-link-contents">
+					<a href="./depends">check depends</a>
+				</div>
+			</div>
+		</div>
+		<div id="footer">© 2019 by Amor </div>
+	</div>
+
+	<script>
+		function keyPressEventHandle(e) {
+			if (this.event.key === 'Enter') {
+				var obj = new XMLHttpRequest();
+				obj.open("POST", "/force/query", true);
+				obj.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				obj.onreadystatechange = function () {
+					if (obj.readyState == 4 && (obj.status == 200)) {
+						console.log('obj.responseText:', obj.responseText);
+					}
+				}
+				var soql = encodeURI(document.querySelector('#searhInput').value);
+				var params = 'soql=' + soql;
+				obj.send(params);
+			}
+		}
+
+	</script>
+</body>
+
+</html>

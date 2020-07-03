@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/sfdc_210.css' />
+	<link rel='stylesheet' href='/stylesheets/index.css' />
+</head>
+
+<body>
+	<div id="left" class="pr">
+		<div id="wrap">
+			<div id="main">
+				<div id="wrapper">
+					<div id="logo_wrapper" class="standard_logo_wrapper mb24">
+						<h1 style="height: 100%; display: table-cell; vertical-align: bottom;"><img id="logo"
+								class="standard_logo" src="/images/logo214.svg" alt="Salesforce" name="logo" border="0">
+						</h1>
+					</div>
+					<div id="content" style="display: block;">
+						<div id="theloginform" style="display: block;">
+							<form name="login"  id="login_form" method="POST" action="/login/postdata"  target="_top" novalidate="novalidate">
+								<label class="label" for="url">Login Url</label>
+								<input class="input r4 wide mb16 mt8 " type="text" id="url" name="url">
+								<div id="usernamegroup" class="inputgroup">
+									<label for="username" class="label usernamelabel">Username</label>
+									<div id="username_container">
+										<input class="input r4 wide mb16 mt8 username" type="email" value=""
+											name="username" id="username" aria-describedby="error"
+											style="display: block;">
+									</div>
+								</div>
+								<label for="password" class="label">Password</label>
+								<input class="input r4 wide mb16 mt8 password" type="password" id="password" name="pw" autocomplete="off">
+                                <div id="tokengroup" class="inputgroup" style="display: none;">
+                                    <label for="token" class="label">Security Token</label>
+                                    <input class="input r4 wide mb16 mt8 password" type="text" id="security_token" name="token" autocomplete="off">
+                                </div>
+                                <div class="error w0 links bt pt16 mb20 hidden">
+                                    <span id="errorMessage" class="errorMessage"></span>
+                                </div>
+                                <input class="button r4 wide primary" type="button" id="Login" name="Login" value="Log In" onclick="handleLogin()">
+                            </form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">© 2019 by Amor </div>
+	</div>
+	<div id="right">
+
+	</div>
+
+    <script>
+        function handleLogin(){
+            var obj = new XMLHttpRequest();
+            obj.open("POST", "/login/postdata", true);
+            obj.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            obj.onreadystatechange = function () {
+                if (obj.readyState === 4 && (obj.status === 200)) {
+					console.log('obj.responseText:',obj.responseText);
+					var res = JSON.parse(obj.response); 
+					if(res.rst){
+						setCookie('url',res.cookie.url);
+						setCookie('token',res.cookie.accessToken);
+						//跳转页面
+						window.location.href = '/';
+					}else{
+						var errorSpan = document.querySelector("#errorMessage");
+						errorSpan.innerText = obj.responseText;
+						if(errorSpan.parentElement.classList.contains('hidden')){
+							errorSpan.parentElement.classList.remove("hidden");
+						}
+					}
+					// if(obj.responseText !== 'SUCCESS'){
+					// 	var errorSpan = document.querySelector("#errorMessage");
+					// 	errorSpan.innerText = obj.responseText;
+					// 	if(errorSpan.parentElement.classList.contains('hidden')){
+					// 		errorSpan.parentElement.classList.remove("hidden");
+					// 	}
+					// }else{
+					// 	//跳转页面
+					// 	window.location.href = '/force';
+					// }
+                }
+            }
+
+            var url = document.querySelector('#url').value;
+            var username = document.querySelector('#username').value;
+            var pwd = document.querySelector('#password').value;
+
+            var params = 'url=' + url + '&username=' + username + '&pw=' + pwd;
+            
+            obj.send(params);
+		}
+		
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			var expires = "expires="+ d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+    
+    </script>
+</body>
+
+</html>

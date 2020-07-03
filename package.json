@@ -1,0 +1,32 @@
+{
+  "name": "exportsalesforcedata",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsforce": "^1.9.3",
+    "json2csv": "^4.5.4",
+    "jsonexport": "^2.4.1",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "multiparty": "^4.2.1",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "uuid": "^8.2.0",
+    "xlsx": "^0.15.2",
+    "xml2js": "^0.4.22"
+  },
+  "description": "export salesforce data to csv",
+  "main": "app.js",
+  "author": "amor",
+  "license": "ISC",
+  "devDependencies": {
+    "chromedriver": "^83.0.0"
+  }
+}
