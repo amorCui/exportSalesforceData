@@ -19,7 +19,7 @@
     "multiparty": "^4.2.1",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "uuid": "^8.2.0",
-    "xlsx": "^0.15.2",
+    "xlsx": "^0.17.0",
     "xml2js": "^0.4.22"
   },
   "description": "export salesforce data to csv",
